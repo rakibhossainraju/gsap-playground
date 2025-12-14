@@ -15,6 +15,14 @@ const importTypeAlias = (): AliasOptions => {
   return alias as AliasOptions;
 };
 
+const inputSourceMap = {
+  "3d-text": "examples/3d-text-rotation/index.html",
+} as const;
+
+const input =
+  inputSourceMap[process.env.PROJECT_TO_RUN as keyof typeof inputSourceMap] ||
+  "index.html";
+
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
@@ -28,8 +36,12 @@ export default defineConfig({
   resolve: {
     alias: importTypeAlias(),
   },
+  server: {
+    open: `/${input}`,
+  },
   build: {
     rollupOptions: {
+      input,
       output: {},
     },
   },
