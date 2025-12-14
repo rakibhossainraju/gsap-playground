@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 * {
   margin: 0;
@@ -15,7 +15,7 @@ body {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  font-family: "Squada One", sans-serif;
+  font-family: 'Squada One', sans-serif;
 }
 
 .scene {
@@ -24,21 +24,22 @@ body {
   height: 300px;
   position: relative;
   transform-style: preserve-3d;
-  perspective-origin: 50% calc(50% - 200px);
+  perspective-origin: 50% calc(50% - 50px);
 }
 .screen {
   position: absolute;
-  width: 400px;
-  height: 400px;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4));
+  width: 550px;
+  height: 200px;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  background: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 0.4),
-    rgba(0, 0, 0, 0.7),
-    rgba(0, 0, 0, 0.4)
-  );
+  img {
+    position: absolute;
+    scale: 0.5;
+    top: -350px;
+    left: -20px;
+  }
 }
 
 .wrapper {
@@ -62,21 +63,20 @@ body {
   transform-style: preserve-3d;
   left: 0;
   top: 0;
+  opacity: 0;
 }
 
 .text span {
   position: absolute;
   display: inline-block;
   transform-style: preserve-3d;
-  background: linear-gradient(to bottom right, #fef08a, #fde047, #eab308);
+  background-image: linear-gradient(
+    to bottom right,
+    var(--color-lime-200),
+    var(--color-lime-300),
+    var(--color-lime-500)
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  /*backface-visibility: hidden;*/
 }
-/*background-image: linear-gradient(*/
-/*  to bottom right,*/
-/*  var(--color-lime-200),*/
-/*  var(--color-lime-300),*/
-/*  var(--color-lime-500)*/
-/*);*/
