@@ -1,14 +1,14 @@
-import { type Alias, type AliasOptions, defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import tailwindcss from "@tailwindcss/vite";
-import tsConfig from "./tsconfig.app.json";
-import * as path from "node:path";
+import { type Alias, type AliasOptions, defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
+import tsConfig from './tsconfig.app.json';
+import * as path from 'node:path';
 
 const importTypeAlias = (): AliasOptions => {
   const alias: Alias[] = [];
   for (const [key, value] of Object.entries(tsConfig.compilerOptions.paths)) {
-    const find = key.replace("/*", "");
-    const replacement = path.resolve(value[0].replace("/*", ""));
+    const find = key.replace('/*', '');
+    const replacement = path.resolve(value[0].replace('/*', ''));
 
     alias.push({ find, replacement });
   }
@@ -16,12 +16,13 @@ const importTypeAlias = (): AliasOptions => {
 };
 
 const inputSourceMap = {
-  "3d-text": "examples/3d-text-rotation/index.html",
+  '3d-text': 'examples/3d-text-rotation/index.html',
+  'svg-animation': 'examples/svg-animation/index.html',
+  'text-hover': 'examples/text-hover/index.html',
 } as const;
 
 const input =
-  inputSourceMap[process.env.PROJECT_TO_RUN as keyof typeof inputSourceMap] ||
-  "index.html";
+  inputSourceMap[process.env.PROJECT_TO_RUN as keyof typeof inputSourceMap] || 'index.html';
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -29,7 +30,7 @@ export default defineConfig({
     tailwindcss(),
     react({
       babel: {
-        plugins: [["babel-plugin-react-compiler"]],
+        plugins: [['babel-plugin-react-compiler']],
       },
     }),
   ],
@@ -40,9 +41,15 @@ export default defineConfig({
     open: `/${input}`,
   },
   build: {
+    sourcemap: true,
     rollupOptions: {
       input,
-      output: {},
+      output: {
+        sourcemap: true,
+      },
     },
+  },
+  css: {
+    devSourcemap: true,
   },
 });

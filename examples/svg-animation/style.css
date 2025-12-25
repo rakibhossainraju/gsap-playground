@@ -1,0 +1,66 @@
+@import 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&amp;family=Geist+Mono:wght@100..900&amp;family=Mona+Sans:ital,wght@0,200..900;1,200..900&amp;display=swap';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+:root {
+  --color-lime-200: #d8f999ff;
+  --color-lime-300: #bbf451ff;
+  --color-lime-500: #7ccf00ff;
+}
+
+body {
+  background: #000000;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  background-image: linear-gradient(
+    to bottom right,
+    var(--color-lime-200),
+    var(--color-lime-300),
+    var(--color-lime-500)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 100%;
+  background-attachment: fixed;
+  font-family: Inter, serif;
+  font-size: 120px;
+  /*
+    Initial animation state is handled in CSS instead of gsap.set()
+    so the browser applies it before first paint, reducing JS work
+    and preventing FOUC.
+  */
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  opacity: 0;
+
+  /*  Prepare the state for the animation */
+  .word {
+    perspective: inherit;
+    transform-style: inherit;
+    will-change: transform;
+    background: inherit;
+  }
+
+  /*  Prepare the state for the animation */
+  .char {
+    opacity: 0;
+    background: inherit;
+    -webkit-background-clip: inherit;
+    -webkit-text-fill-color: inherit;
+    background-clip: inherit;
+    perspective: inherit;
+    transform: rotateX(-80deg) translateY(20px);
+    transform-style: inherit;
+    will-change: transform;
+    transform-origin: center center -10px;
+  }
+}

@@ -1,0 +1,48 @@
+@import 'tailwindcss';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #000000;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100lvw;
+  height: 100lvh;
+  overflow: hidden;
+  font-family: 'Squada One', sans-serif;
+}
+
+.text {
+  font-size: 120px;
+  text-transform: uppercase;
+  font-weight: 900;
+  transform-style: preserve-3d;
+}
+
+.text .char-container {
+  position: relative;
+  display: inline-block;
+  transform-style: preserve-3d;
+  background-image: linear-gradient(
+    to bottom right,
+    var(--color-lime-200),
+    var(--color-lime-300),
+    var(--color-lime-500)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.char-top {
+  position: relative;
+}
+.char-bottom {
+  position: absolute;
+}

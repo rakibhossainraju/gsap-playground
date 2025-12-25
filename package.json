@@ -8,7 +8,9 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "dev:3d-text": "PROJECT_TO_RUN=3d-text vite"
+    "dev:3d-text": "PROJECT_TO_RUN=3d-text vite",
+    "dev:text-hover": "PROJECT_TO_RUN=text-hover vite",
+    "dev:svg-animation": "PROJECT_TO_RUN=svg-animation vite"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
