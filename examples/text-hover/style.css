@@ -23,26 +23,33 @@ body {
   text-transform: uppercase;
   font-weight: 900;
   transform-style: preserve-3d;
+  overflow: hidden;
 }
 
-.text .char-container {
-  position: relative;
-  display: inline-block;
-  transform-style: preserve-3d;
-  background-image: linear-gradient(
-    to bottom right,
-    var(--color-lime-200),
-    var(--color-lime-300),
-    var(--color-lime-500)
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.char-top {
-  position: relative;
-}
-.char-bottom {
-  position: absolute;
+.text {
+  line-height: 0.7;
+  .char-container {
+    background-image: linear-gradient(
+      to bottom right,
+      var(--color-lime-200),
+      var(--color-lime-300),
+      var(--color-lime-500)
+    );
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    transform-style: preserve-3d;
+    * {
+      background: inherit;
+    }
+    .char-top {
+      position: relative;
+      will-change: transform;
+    }
+    .char-bottom {
+      position: absolute;
+      will-change: transform;
+      top: 0;
+    }
+  }
 }
