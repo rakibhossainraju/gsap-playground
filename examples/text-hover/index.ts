@@ -45,34 +45,65 @@ function deepSplitChar(splittedText: SplitText): CharElements {
 }
 function animateChars({ topChars, bottomChars }: CharElements, heading: HTMLHeadingElement) {
   // Create a separate timeline for each heading
-  const defaults = { duration: 0.6, stagger: 0.02, ease: 'power3.out', overwrite: true };
+  const defaults: gsap.TweenVars = {
+    duration: 0.6,
+    ease: 'power3.out',
+    overwrite: true,
+  };
 
-  const elementHeight = topChars[0].offsetHeight;
-  gsap.set(bottomChars, { y: elementHeight, opacity: 1 });
+  const elementHeight = heading.offsetHeight;
+  const elementWidth = heading.offsetWidth;
+  gsap.set(bottomChars, { y: elementHeight, rotateX: -90 });
 
-  heading.addEventListener('mouseenter', () => {
+  heading.addEventListener('mouseenter', (e) => {
     gsap.to(topChars, {
       yPercent: -100,
       rotateX: 90,
       ...defaults,
+      stagger: {
+        each: 0.02,
+        from: hoverPosition(elementWidth, e.offsetX),
+      },
     });
     gsap.to(bottomChars, {
       y: 0,
       rotateX: 0,
-      ...defaults,
+      stagger: {
+        each: 0.02,
+        from: hoverPosition(elementWidth, e.offsetX),
+      },
     });
   });
 
-  heading.addEventListener('mouseleave', () => {
+  heading.addEventListener('mouseleave', (e) => {
     gsap.to(topChars, {
       yPercent: 0,
       rotateX: 0,
       ...defaults,
+      stagger: {
+        each: 0.02,
+        from: hoverPosition(elementWidth, e.offsetX),
+      },
     });
     gsap.to(bottomChars, {
       y: elementHeight,
       rotateX: -90,
       ...defaults,
+      stagger: {
+        each: 0.02,
+        from: hoverPosition(elementWidth, e.offsetX),
+      },
     });
   });
+}
+
+function hoverPosition(elementWidth: number, mousePos: number): 'start' | 'center' | 'end' {
+  const thirdWidth = Math.round(elementWidth / 3);
+  if (mousePos < thirdWidth) {
+    return 'start';
+  } else if (mousePos > elementWidth - thirdWidth) {
+    return 'end';
+  } else {
+    return 'center';
+  }
 }
