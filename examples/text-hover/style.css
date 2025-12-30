@@ -12,6 +12,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  gap: 3rem;
   width: 100lvw;
   height: 100lvh;
   overflow: hidden;
@@ -24,6 +26,7 @@ body {
   font-weight: 900;
   transform-style: preserve-3d;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .text {
@@ -39,7 +42,10 @@ body {
     -webkit-background-clip: text;
     background-clip: text;
     transform-style: preserve-3d;
+    pointer-events: none;
+
     * {
+      pointer-events: none;
       background: inherit;
     }
     .char-top {
@@ -48,8 +54,8 @@ body {
     }
     .char-bottom {
       position: absolute;
-      will-change: transform;
       top: 0;
+      will-change: transform;
     }
   }
 }

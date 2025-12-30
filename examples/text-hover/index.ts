@@ -2,7 +2,10 @@ import { gsap } from 'gsap';
 import { SplitText } from 'gsap/SplitText';
 import { GSDevTools } from 'gsap/GSDevTools';
 gsap.registerPlugin(SplitText, GSDevTools);
-const CHAR_GAP = 50;
+
+type CharElements = { topChars: HTMLDivElement[]; bottomChars: HTMLDivElement[] };
+
+const CHAR_GAP = 100;
 const headings = document.querySelectorAll<HTMLHeadingElement>('.text');
 
 headings.forEach((heading) => {
@@ -10,11 +13,14 @@ headings.forEach((heading) => {
     type: 'chars',
     autoSplit: true,
     charsClass: 'char-container',
-    onSplit: deepSplitChar,
+    onSplit: (splittedText) => {
+      const charElements = deepSplitChar(splittedText);
+      animateChars(charElements, heading);
+    },
   });
 });
 
-function deepSplitChar(splittedText: SplitText) {
+function deepSplitChar(splittedText: SplitText): CharElements {
   const topChars: HTMLDivElement[] = [];
   const bottomChars: HTMLDivElement[] = [];
 
@@ -37,15 +43,9 @@ function deepSplitChar(splittedText: SplitText) {
     bottomChars.push(bottomDiv);
   });
 
-  headings.forEach((heading) => {
-    animateChars(topChars, bottomChars, heading);
-  });
+  return { topChars, bottomChars };
 }
-function animateChars(
-  topChars: HTMLDivElement[],
-  bottomChars: HTMLDivElement[],
-  heading: HTMLHeadingElement
-) {
+function animateChars({ topChars, bottomChars }: CharElements, heading: HTMLHeadingElement) {
   // Create a separate timeline for each heading
   const defaults = { duration: 0.6, stagger: 0.02, ease: 'power3.out', overwrite: true };
 
@@ -62,5 +62,3 @@ function animateChars(
     gsap.to(bottomChars, { y: elementHeight, ...defaults });
   });
 }
-
-function onHoverChar(event: MouseEvent) {}
