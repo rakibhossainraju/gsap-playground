@@ -24,13 +24,13 @@ body {
   font-size: 120px;
   text-transform: uppercase;
   font-weight: 900;
-  transform-style: preserve-3d;
-  overflow: hidden;
   cursor: pointer;
-}
-
-.text {
   line-height: 0.7;
+  overflow: hidden;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  /* outline: 1px solid var(--color-lime-400); */
+
   .char-container {
     background-image: linear-gradient(
       to bottom right,
@@ -41,19 +41,24 @@ body {
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
     background-clip: text;
-    transform-style: preserve-3d;
     pointer-events: none;
+    position: relative;
+    transform-style: preserve-3d;
 
     * {
       pointer-events: none;
       background: inherit;
+      transform-style: preserve-3d;
+      transform-origin: center 0;
     }
     .char-top {
       position: relative;
       will-change: transform;
+      backface-visibility: hidden;
     }
     .char-bottom {
       position: absolute;
+      backface-visibility: hidden;
       top: 0;
       will-change: transform;
     }
