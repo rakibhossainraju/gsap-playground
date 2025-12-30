@@ -41,7 +41,6 @@ body {
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
     background-clip: text;
-    pointer-events: none;
     position: relative;
     transform-style: preserve-3d;
 

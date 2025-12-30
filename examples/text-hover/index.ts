@@ -23,7 +23,7 @@ function deepSplitChar(splittedText: SplitText): CharElements {
   const topChars: HTMLDivElement[] = [];
   const bottomChars: HTMLDivElement[] = [];
 
-  splittedText.chars.forEach((char) => {
+  splittedText.chars.forEach((char, idx) => {
     const textContent = char.textContent || '';
 
     const topDiv = document.createElement('div');
@@ -35,6 +35,7 @@ function deepSplitChar(splittedText: SplitText): CharElements {
     bottomDiv.textContent = textContent;
 
     char.textContent = '';
+    char.setAttribute('data-char-pos', idx.toString());
     char.appendChild(topDiv);
     char.appendChild(bottomDiv);
     topChars.push(topDiv);
@@ -51,18 +52,19 @@ function animateChars({ topChars, bottomChars }: CharElements, heading: HTMLHead
     overwrite: true,
   };
 
-  const elementHeight = heading.offsetHeight;
-  const elementWidth = heading.offsetWidth;
-  gsap.set(bottomChars, { y: elementHeight, rotateX: -90 });
+  const headingHeight = heading.offsetHeight;
+  const headingWidth = heading.offsetWidth;
+  gsap.set(bottomChars, { y: headingHeight, rotateX: -90 });
 
   heading.addEventListener('mouseenter', (e) => {
+    const staggerFrom = hoverPosition(headingWidth, e);
     gsap.to(topChars, {
       yPercent: -100,
       rotateX: 90,
       ...defaults,
       stagger: {
         each: 0.02,
-        from: hoverPosition(elementWidth, e.offsetX),
+        from: staggerFrom,
       },
     });
     gsap.to(bottomChars, {
@@ -70,38 +72,48 @@ function animateChars({ topChars, bottomChars }: CharElements, heading: HTMLHead
       rotateX: 0,
       stagger: {
         each: 0.02,
-        from: hoverPosition(elementWidth, e.offsetX),
+        from: staggerFrom,
       },
     });
   });
 
   heading.addEventListener('mouseleave', (e) => {
+    const staggerFrom = hoverPosition(headingWidth, e);
     gsap.to(topChars, {
       yPercent: 0,
       rotateX: 0,
       ...defaults,
       stagger: {
         each: 0.02,
-        from: hoverPosition(elementWidth, e.offsetX),
+        from: staggerFrom,
       },
     });
     gsap.to(bottomChars, {
-      y: elementHeight,
+      y: headingHeight,
       rotateX: -90,
       ...defaults,
       stagger: {
         each: 0.02,
-        from: hoverPosition(elementWidth, e.offsetX),
+        from: staggerFrom,
       },
     });
   });
 }
 
-function hoverPosition(elementWidth: number, mousePos: number): 'start' | 'center' | 'end' {
-  const thirdWidth = Math.round(elementWidth / 3);
-  if (mousePos < thirdWidth) {
+function hoverPosition(headingWidth: number, e: MouseEvent): number | 'start' | 'center' | 'end' {
+  const elementUnderMouse = document.elementFromPoint(e.clientX, e.clientY);
+  if (elementUnderMouse !== e.currentTarget && elementUnderMouse?.getAttribute('data-char-pos')) {
+    const charPos = elementUnderMouse.getAttribute('data-char-pos');
+    if (charPos !== null) {
+      console.log(elementUnderMouse);
+      return parseInt(charPos, 10);
+    }
+  }
+  const xOffSet = e.offsetX;
+  const thirdWidth = Math.round(headingWidth / 3);
+  if (xOffSet < thirdWidth) {
     return 'start';
-  } else if (mousePos > elementWidth - thirdWidth) {
+  } else if (xOffSet > headingWidth - thirdWidth) {
     return 'end';
   } else {
     return 'center';
